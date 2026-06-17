@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What to Attend, What to Keep — SkillFormer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="progress-rail"></div>
+
+<!-- ─── NAV ─────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <span class="nav-brand">SkillFormer</span>
+    <ul class="nav-links">
+      <li><a href="#tasks">Tasks</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#visualization">Visualizer</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-btn nav-btn-ghost">Paper</a>
+      <a href="#" class="nav-btn nav-btn-fill">Code</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────────────── -->
+<header id="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <div class="hero-inner">
+    <h1 class="hero-title">
+      <span class="write-phrase phrase-1">What to Attend,</span>
+      <span class="write-phrase phrase-2">What to Keep</span>
+    </h1>
+
+    <p class="hero-sub">
+      Multi-Modal Representation Learning<br>for Contact-Rich Manipulation
+    </p>
+
+    <p class="hero-byline">Anonymous Author(s)</p>
+
+    <p class="hero-tldr">
+      We present <strong>SkillFormer</strong> — a language-conditioned representation that
+      decomposes manipulation into primitive skills and learns <em>which modality to attend to</em>
+      and <em>what states to keep</em> at each phase, evaluated through skill progress estimation
+      across contact-rich tasks requiring sensing beyond vision.
+    </p>
+
+    <div class="hero-links">
+      <a href="#" class="hlink hlink-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Paper
+      </a>
+      <a href="#" class="hlink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        Code
+      </a>
+      <a href="#" class="hlink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Video
+      </a>
+      <a href="#visualization" class="hlink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Explore
+      </a>
+    </div>
+
+  </div>
+
+  <div class="hero-scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</header>
+
+<!-- ─── ABSTRACT ─────────────────────────────────────────────────── -->
+<section id="abstract" class="section reveal">
+  <div class="container narrow">
+    <div class="section-head">
+      <span class="section-eyebrow">Abstract</span>
+    </div>
+    <p class="abstract-lead">
+      Robotic manipulation requires integrating diverse modalities — vision, touch, and language.
+      Yet existing policies fuse modalities <em>uniformly</em> across all task phases,
+      ignoring the phase-dependent temporal relevance of each modality.
+    </p>
+    <p class="abstract-body">
+      We address this by decomposing long-horizon manipulation into primitive skills such as reaching,
+      grasping, and alignment. Language serves as an interface that structures the sequence of
+      primitives and guides sensor prioritization at each stage. Our model combines
+      modality-specialized tokenizers, asymmetric temporal horizons for RGB and tactile,
+      and a sparse <strong>event memory</strong> that retains skill-relevant states at their
+      boundaries. We evaluate the learned representation through <em>progress prediction</em>
+      — a structured diagnostic that directly reflects whether the representation captures
+      the right modality at the right time — and compare against conventional multi-modal
+      representations used in manipulation policies.
+    </p>
+    <blockquote class="abstract-thesis">
+      "Observation formation — not only policy architecture — is a central challenge
+      in multi-modal robotic manipulation."
+    </blockquote>
+  </div>
+</section>
+
+<!-- ─── TASKS ─────────────────────────────────────────────────────── -->
+<section id="tasks" class="section reveal">
+  <div class="container" style="position:relative;">
+    <div class="gripper-float">
+      <img src="figs/umitac.png" alt="UMI gripper with integrated tactile sensors" class="gripper-img">
+      <div class="gripper-caption">UMI gripper + dual tactile</div>
+    </div>
+    <div class="section-head">
+      <span class="section-eyebrow">Dataset</span>
+      <h2 class="section-title">Contact-Rich Manipulation Tasks</h2>
+      <p class="section-desc">
+        Each task requires different modalities at different phases. Completing the final skill
+        primarily relies on <em>tactile perception</em> — twist completion, slip detection,
+        and hidden cube identification cannot be inferred from vision alone.
+      </p>
+    </div>
+
+    <div class="task-grid">
+
+      <!-- LAMP -->
+      <div class="task-card" data-task="lamp">
+        <div class="task-accent" style="--task-color: #4a9e70;"></div>
+        <div class="task-video-wrap">
+          <video class="task-video" src="videos/3rd_lamp_replacement.MP4" autoplay muted loop playsinline></video>
+          <div class="task-tag" style="--task-color: #4a9e70;">Lamp Replacement</div>
+        </div>
+        <div class="task-body">
+          <p class="task-desc">Replace a light bulb. The critical terminal skill — <em>twist completion</em> — must be detected from increased tactile force after the bulb is sufficiently rotated. Visual cues alone are ambiguous.</p>
+        </div>
+      </div>
+
+      <!-- BOTTLE -->
+      <div class="task-card" data-task="bottle">
+        <div class="task-accent" style="--task-color: #c07830;"></div>
+        <div class="task-video-wrap">
+          <video class="task-video" src="videos/3rd_bottle_cap.MP4" autoplay muted loop playsinline></video>
+          <div class="task-tag" style="--task-color: #c07830;">Bottle Capping</div>
+        </div>
+        <div class="task-body">
+          <p class="task-desc">Cap a bottle by detecting slippage during cap sliding. Progress in the sliding stage is driven entirely by tactile feedback — slip signatures that register force transients invisible to RGB.</p>
+        </div>
+      </div>
+
+      <!-- BLIND -->
+      <div class="task-card" data-task="blind">
+        <div class="task-accent" style="--task-color: #c04455;"></div>
+        <div class="task-video-wrap">
+          <video class="task-video" src="videos/3rd_blind_search.MP4" autoplay muted loop playsinline></video>
+          <div class="task-tag" style="--task-color: #c04455;">Blind Cube Search</div>
+        </div>
+        <div class="task-body">
+          <p class="task-desc">Identify a hidden cube among pentagon and square shapes using tactile deformation patterns. The robot must distinguish contact geometry with zero visual information about the cube's location.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── SKILLS ─────────────────────────────────────────────────────── -->
+<section id="skills" class="section reveal">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Skill Decomposition</span>
+      <h2 class="section-title">Language-Described Primitive Skills</h2>
+      <p class="section-desc">
+        Each task is decomposed into a fixed sequence of language-described skills.
+        Modality importance <em>shifts</em> across phases — reaching skills are vision-dominant,
+        while contact-rich terminal skills depend on tactile sensing.
+        Click any skill to see its description and video clip.
+      </p>
+    </div>
+
+    <div class="skill-tabs">
+      <button class="skill-tab active" data-target="bottle-timeline">
+        <span class="stab-dot" style="background:#c07830"></span> Bottle Capping
+      </button>
+      <button class="skill-tab" data-target="blind-timeline">
+        <span class="stab-dot" style="background:#c04455"></span> Blind Cube Search
+      </button>
+      <button class="skill-tab" data-target="lamp-timeline">
+        <span class="stab-dot" style="background:#4a9e70"></span> Lamp Replacement
+      </button>
+    </div>
+
+    <!-- BOTTLE TIMELINE -->
+    <div class="skill-timeline active" id="bottle-timeline">
+      <div class="timeline-scroll">
+        <div class="timeline-line"></div>
+        <div class="timeline-nodes" id="bottle-nodes"></div>
+      </div>
+      <div class="skill-detail" id="bottle-detail"></div>
+    </div>
+
+    <!-- BLIND TIMELINE -->
+    <div class="skill-timeline" id="blind-timeline">
+      <div class="timeline-scroll">
+        <div class="timeline-line"></div>
+        <div class="timeline-nodes" id="blind-nodes"></div>
+      </div>
+      <div class="skill-detail" id="blind-detail"></div>
+    </div>
+
+    <!-- LAMP TIMELINE -->
+    <div class="skill-timeline" id="lamp-timeline">
+      <div class="timeline-scroll">
+        <div class="timeline-line"></div>
+        <div class="timeline-nodes" id="lamp-nodes"></div>
+      </div>
+      <div class="skill-detail" id="lamp-detail"></div>
+    </div>
+
+    <div class="modality-legend">
+      <span class="mod-key"><span class="ptype-badge ptype-cont">Cont.</span> Continuous progress</span>
+      <span class="mod-key"><span class="ptype-badge ptype-disc">Disc.</span> Discrete completion</span>
+      <span class="mod-key"><span class="ptype-badge ptype-cond">Cond.</span> Conditional</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── METHOD ─────────────────────────────────────────────────────── -->
+<section id="method" class="section reveal">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Architecture</span>
+      <h2 class="section-title">How does it work?</h2>
+      <p class="section-desc">
+        Three design decisions address the core challenge of observation formation
+        for contact-rich manipulation.
+      </p>
+    </div>
+
+    <!-- Architecture figure -->
+    <div class="arch-figure reveal">
+      <div class="arch-fig-placeholder">
+        <img src="figs/architecture.svg" alt="SkillFormer Architecture" class="arch-img">
+      </div>
+      <p class="fig-caption">
+        <strong>SkillFormer.</strong>
+        CLIP ViT and FeelAnyForce encode RGB and tactile frames over modality-specific horizons.
+        A frozen CLIP text model encodes the queried skill. Tokens carry temporal, modality,
+        and event embeddings. A GPT-style transformer fuses them via bidirectional self-attention
+        and decodes scalar progress.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VISUALIZATION ─────────────────────────────────────────────── -->
+<section id="visualization" class="section reveal">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Representation Analysis</span>
+      <h2 class="section-title">t-SNE Visualization of Skill-Conditioned Representations</h2>
+      <p class="section-desc">
+        t-SNE projections of the learned representations. The same visual observation
+        is queried with each skill description, producing different representations per frame.
+        Language conditioning meaningfully restructures the representation space —
+        clusters separate by task, and color by GT progress reveals smooth 0→1 gradients
+        within each cluster.
+      </p>
+    </div>
+
+    <div class="viz-embed-outer">
+      <span class="viz-zoom-hint">Hover to zoom</span>
+    <div class="viz-embed-wrap">
+      <iframe
+        id="viz-compositor"
+        src="viz_compositor.html"
+        scrolling="no"
+        allowfullscreen
+        onload="document.getElementById('viz-offline').style.display='none';"
+        onerror="document.getElementById('viz-offline').style.display='flex';"
+      ></iframe>
+      <div class="viz-offline" id="viz-offline">
+        <button onclick="document.getElementById('viz-compositor').src='viz_compositor.html';">Retry</button>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESULTS ─────────────────────────────────────────────────────── -->
+<section id="results" class="section reveal">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Experiments</span>
+      <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
+      <p class="section-desc">
+        Progress estimation directly measures whether a representation captures the right modality
+        at the right time. We compare SkillFormer against observation formulations common in
+        manipulation policies. Strongest gains appear on skills whose completion depends on
+        contact state, tactile evolution, or transitions between nearby manipulation phases.
+      </p>
+    </div>
+
+    <!-- Progress curve figure -->
+    <div class="curves-figure reveal">
+      <img src="figs/progress_curves.png" alt="Progress estimation curves" class="curves-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="fig-fallback curves-fallback">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Progress Curves (Fig. 3 from paper)</span>
+        <small>Place figs/progress_curves.png to display</small>
+      </div>
+      <p class="fig-caption">
+        <strong>Fig. 3.</strong> Progress estimation on the <em>slide cap</em> skill.
+        SkillFormer (left) tracks true completion at slip detection, while baselines show
+        spurious errors — early detection, oscillation, or unstable ramps — without
+        tactile-specialized encoding, event memory, or an adequate tactile horizon.
+      </p>
+    </div>
+
+    <!-- Results table -->
+    <h3 class="table-heading">Table 2: Progress Estimation Results <span class="table-sub">MAE ↓ · lower is better · bold = best</span></h3>
+    <div class="table-wrap reveal">
+      <table class="results-table results-table-full">
+        <thead>
+          <tr>
+            <th class="col-method">Method</th>
+            <th colspan="2" class="group-header lamp-header">Lamp Replacement</th>
+            <th colspan="2" class="group-header bottle-header">Bottle Capping</th>
+            <th colspan="2" class="group-header blind-header">Blind Cube Search</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th class="sub-th">Grasp Bulb</th>
+            <th class="sub-th">Twist Bulb</th>
+            <th class="sub-th">Grasp Cap</th>
+            <th class="sub-th">Slide Cap</th>
+            <th class="sub-th">Inspect Box</th>
+            <th class="sub-th">Insert Cube</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-ablation">
+            <td class="method-name">No Tactile</td>
+            <td>5e-2</td><td>8e-2</td>
+            <td>5e-2</td><td>5e-2</td>
+            <td>5e-2</td><td>0</td>
+          </tr>
+          <tr class="row-ablation">
+            <td class="method-name">No Event</td>
+            <td>4e-2</td><td>1e-2</td>
+            <td>3e-2</td><td>3e-2</td>
+            <td>1e-2</td><td>4e-1</td>
+          </tr>
+          <tr>
+            <td class="method-name">FiLM</td>
+            <td>4e-2</td><td>4e-2</td>
+            <td>3e-2</td><td>3e-2</td>
+            <td>1.2e-1</td><td>3.4e-1</td>
+          </tr>
+          <tr>
+            <td class="method-name">SkillFormer (H=2)</td>
+            <td>4e-2</td><td>3e-2</td>
+            <td>2e-2</td><td>2e-2</td>
+            <td>3e-2</td><td>1.4e-1</td>
+          </tr>
+          <tr class="row-ours">
+            <td class="method-name"><span class="method-star">★</span> SkillFormer <span class="tag-ours">Ours</span></td>
+            <td class="best">1e-2</td><td class="best">0</td>
+            <td class="best">1e-2</td><td class="best">1e-2</td>
+            <td class="best">1e-2</td><td class="best">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Table 2 from paper. MAE averaged over test episodes.</p>
+
+    <!-- Key takeaways -->
+    <div class="takeaways reveal">
+      <div class="takeaway">
+        <div class="takeaway-icon">✦</div>
+        <p><strong>Tactile matters at boundaries.</strong> On <em>twist bulb</em> and <em>slide cap</em>, SkillFormer achieves near-zero MAE. Baselines without tactile-specialized encoding fail precisely where contact dynamics signal completion.</p>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-icon">✦</div>
+        <p><strong>Event memory resolves ambiguity.</strong> The w/o-Events model shows large errors on <em>align cap</em> (0.09 vs 0.01), confirming that skill boundaries are ambiguous without a stored reference to the terminal state of the previous skill.</p>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-icon">✦</div>
+        <p><strong>Blind cube search is fully tactile-dominant.</strong> SkillFormer substantially reduces delay and false positives on <em>inspect box</em> compared to FiLM, which cannot distinguish cube geometry from tactile deformation alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BIBTEX ─────────────────────────────────────────────────────── -->
+<section id="bibtex" class="section reveal">
+  <div class="container narrow">
+    <div class="section-head">
+      <span class="section-eyebrow">Citation</span>
+      <h2 class="section-title">BibTeX</h2>
+    </div>
+    <div class="bib-wrap">
+      <button class="copy-bib" id="copy-bib" title="Copy BibTeX">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+      <pre class="bibtex" id="bibtex-text">@article{anonymous2025skillformer,
+  title     = {What to Attend, What to Keep: Multi-Modal
+               Representation Learning for Contact-Rich Manipulation},
+  author    = {Anonymous Author(s)},
+  journal   = {arXiv preprint},
+  year      = {2025},
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-row">
+      <div class="footer-left">
+        <span class="footer-wordmark">SkillFormer</span>
+        <span class="footer-sub">What to Attend, What to Keep</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-credit">2025</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Representation Visualizations</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #f8f8f8;
+    color: #111111;
+    font-family: Roboto, sans-serif;
+  }
+
+  #toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0;
+  }
+  #toolbar label { font-size: 12px; color: #666666; white-space: nowrap; }
+
+  /* custom dropdown — replaces the native <select>'s open-list styling,
+     which can't be themed and looks dated/OS-default */
+  .dd { position: relative; }
+  .dd-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 10px; padding-right: 28px;
+    background: #f4f4f4; border: 1px solid #d0d0d0; border-radius: 6px;
+    color: #111111; font-size: 12px; font-family: inherit;
+    cursor: pointer; outline: none; white-space: nowrap;
+    position: relative;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  .dd-btn::after {
+    content: ''; position: absolute; right: 9px; top: 50%;
+    width: 8px; height: 5px; margin-top: -2px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888888'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 8px 5px;
+    transition: transform .15s ease;
+  }
+  .dd-btn:hover { border-color: #999999; background: #eeeeee; }
+  .dd.open .dd-btn {
+    border-color: #ce1124; box-shadow: 0 0 0 2px rgba(206,17,36,.12);
+    background: #ffffff;
+  }
+  .dd.open .dd-btn::after { transform: rotate(180deg); }
+
+  .dd-menu {
+    position: absolute; top: calc(100% + 6px); left: 0;
+    min-width: 100%; max-height: 280px; overflow-y: auto;
+    background: #ffffff; border: 1px solid #d8d8d8; border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.14);
+    padding: 4px; margin: 0; list-style: none; z-index: 50;
+    opacity: 0; transform: translateY(-4px) scale(.98);
+    pointer-events: none;
+    transition: opacity .14s ease, transform .14s ease;
+  }
+  .dd.open .dd-menu { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+  .dd-opt {
+    padding: 6px 10px; border-radius: 5px;
+    font-size: 12px; color: #333333; white-space: nowrap;
+    cursor: pointer; transition: background .1s;
+  }
+  .dd-opt:hover { background: #f4f4f4; }
+  .dd-opt.selected { background: #fdecec; color: #ce1124; font-weight: 600; }
+
+  .sep { width: 1px; height: 22px; background: #e0e0e0; }
+
+  #mode-btns { display: flex; gap: 2px; }
+  .mode-btn {
+    padding: 4px 10px;
+    background: #f4f4f4; border: 1px solid #d0d0d0;
+    border-radius: 5px; color: #555555; font-size: 12px;
+    cursor: pointer; outline: none; white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .mode-btn:hover  { background: #eeeeee; border-color: #aaaaaa; color: #111111; }
+  .mode-btn.active { background: #ce1124; border-color: #ce1124; color: #ffffff; }
+
+  .toggle {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 10px; background: #f4f4f4;
+    border: 1px solid #d0d0d0; border-radius: 4px;
+    cursor: pointer; font-size: 12px; color: #666666; user-select: none;
+  }
+  .toggle input { accent-color: #ce1124; }
+  .toggle.on { border-color: #aaaaaa; color: #111111; }
+
+  #row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 8px;
+    overflow: visible;
+    align-content: start;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .cell-label {
+    font-size: 11px; color: #888888; text-align: center;
+    padding: 3px 6px; border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0; height: 22px;
+  }
+  iframe { display: block; border: none; width: 100%; }
+
+  /* small thumbnail stays put — the zoomed view is a separate overlay owned
+     by the top-level page (see script.js), not this iframe */
+  .cell-frame-wrap { position: relative; width: 100%; cursor: zoom-in; }
+  .cell-frame-wrap iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none;  /* small thumbnail is just a preview; wrap owns hover detection */
+  }
+
+  #page { display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+<div id="page">
+  <div id="toolbar">
+    <label>Task:</label>
+    <select id="task">
+      <option value="">All tasks</option>
+      <option value="align_bottle_cap">align bottle cap</option>
+      <option value="final_twist">final twist</option>
+      <option value="grasp_bottle_cap">grasp bottle cap</option>
+      <option value="reach_bottle_cap">reach bottle cap</option>
+      <option value="reach_bottle">reach bottle</option>
+      <option value="slide_bottle_cap">slide bottle cap</option>
+    </select>
+    <div class="sep"></div>
+    <label>Mode:</label>
+    <div id="mode-btns">
+      <button class="mode-btn active" data-mode="Color: GT progress">GT progress</button>
+      <button class="mode-btn" data-mode="Terminals">Terminals</button>
+      <button class="mode-btn" data-mode="Color: task">Task</button>
+    </div>
+    <div class="sep"></div>
+    <label class="toggle on"><input type="checkbox" checked data-group="plain" />Bottle Capping</label>
+    <label class="toggle"><input type="checkbox" data-group="lamp" />Lamp Replacement</label>
+    <label class="toggle"><input type="checkbox" data-group="blind_search" />Blind Search</label>
+  </div>
+  <div id="row"></div>
+</div>
+
+<script>
+var CHECKPOINTS_BASE = 'checkpoints';
+
+var EXPS = [
+  { dir: "language_v1_b64",               name: "Ours",             group: "plain" },
+  { dir: "language_v1_film",              name: "FiLM",             group: "plain" },
+  { dir: "language_v1_no_events",         name: "w/o Events",       group: "plain" },
+  { dir: "language_v1_no_tac_no_events",  name: "Vision Only",      group: "plain" },
+  { dir: "language_v1_no_faf",            name: "w/o FAF",          group: "plain" },
+  { dir: "language_v1_h16",              name: "16-Head",           group: "plain" },
+  { dir: "lamp_language_v1_b45",               name: "Lamp — Ours",         group: "lamp" },
+  { dir: "lamp_language_v1_film",              name: "Lamp — FiLM",         group: "lamp" },
+  { dir: "lamp_language_v1_h2",               name: "Lamp — Ours (H-2)",   group: "lamp" },
+  { dir: "lamp_language_v1_no_events",         name: "Lamp — w/o Events",   group: "lamp" },
+  { dir: "lamp_language_v1_no_faf",            name: "Lamp — w/o FAF",      group: "lamp" },
+  { dir: "lamp_language_v1_no_tac_no_events",  name: "Lamp — Vision Only",  group: "lamp" },
+  { dir: "blind_search_language_v1_b45",               name: "BS — Ours",         group: "blind_search" },
+  { dir: "blind_search_language_v1_b45_n3",            name: "BS — Ours (3 ev)",  group: "blind_search" },
+  { dir: "blind_search_language_v1_film",              name: "BS — FiLM",         group: "blind_search" },
+  { dir: "blind_search_language_v1_h2",               name: "BS — Ours (H-2)",   group: "blind_search" },
+  { dir: "blind_search_language_v1_no_events",         name: "BS — w/o Events",   group: "blind_search" },
+  { dir: "blind_search_language_v1_no_faf",            name: "BS — w/o FAF",      group: "blind_search" },
+  { dir: "blind_search_language_v1_no_tac_no_events",  name: "BS — Vision Only",  group: "blind_search" },
+];
+
+var row      = document.getElementById('row');
+var taskEl   = document.getElementById('task');
+var METHOD   = 'tsne3d';
+var LABEL_H = 22;
+var PLOT_H  = 400; // matches width/height in viz_representation.py
+
+// ── Custom dropdown (replaces the native <select>'s un-themeable open list) ──
+var taskDD = (function () {
+  taskEl.style.display = 'none';
+
+  var dd  = document.createElement('div');
+  dd.className = 'dd';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'dd-btn';
+  var menu = document.createElement('ul');
+  menu.className = 'dd-menu';
+  dd.appendChild(btn);
+  dd.appendChild(menu);
+  taskEl.parentNode.insertBefore(dd, taskEl);
+
+  function sync() {
+    btn.textContent = taskEl.options[taskEl.selectedIndex].textContent;
+    menu.querySelectorAll('.dd-opt').forEach(function (o) {
+      o.classList.toggle('selected', o.dataset.value === taskEl.value);
+    });
+  }
+
+  function build() {
+    menu.innerHTML = '';
+    Array.from(taskEl.options).forEach(function (opt) {
+      var li = document.createElement('li');
+      li.className = 'dd-opt' + (opt.value === taskEl.value ? ' selected' : '');
+      li.textContent = opt.textContent;
+      li.dataset.value = opt.value;
+      li.addEventListener('click', function () {
+        if (taskEl.value !== opt.value) {
+          taskEl.value = opt.value;
+          taskEl.dispatchEvent(new Event('change'));
+        }
+        close();
+      });
+      menu.appendChild(li);
+    });
+    sync();
+  }
+
+  function open()  { build(); dd.classList.add('open'); }
+  function close() { dd.classList.remove('open'); }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    dd.classList.contains('open') ? close() : open();
+  });
+  document.addEventListener('click', function (e) {
+    if (!dd.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+
+  build();
+  return { sync: sync };
+})();
+
+function fname() {
+  var task = taskEl.value;
+  return 'features_best_model_' + METHOD + (task ? '_' + task : '') + '.html';
+}
+
+function src(dir) {
+  return CHECKPOINTS_BASE + '/' + dir + '/' + fname();
+}
+
+function activeGroups() {
+  return Array.from(document.querySelectorAll('[data-group]'))
+    .filter(function(c) { return c.checked; })
+    .map(function(c) { return c.dataset.group; });
+}
+
+function makeCell(e, fname) {
+  var cell = document.createElement('div');
+  cell.className = 'cell';
+  cell.dataset.key = e.dir + '|' + fname;
+
+  var lbl = document.createElement('div');
+  lbl.className = 'cell-label';
+  lbl.textContent = e.name;
+
+  var wrap = document.createElement('div');
+  wrap.className = 'cell-frame-wrap';
+  wrap.style.height = PLOT_H + 'px';
+
+  var frame = document.createElement('iframe');
+  frame.src = src(e.dir);
+  frame.loading = 'lazy';
+  frame.scrolling = 'no';
+
+  wrap.appendChild(frame);
+  cell.appendChild(lbl);
+  cell.appendChild(wrap);
+  attachZoom(wrap, frame, e.name);
+  return cell;
+}
+
+// ── Zoom-on-hover: bring a plot into focus, like the task videos ──────────────
+// This compositor lives in its own nested iframe, so a `position: fixed`
+// element built *here* would only center within this small iframe's own
+// viewport, not the actual browser window — wrong when the page is scrolled.
+// The floating zoomed plot is owned by the top-level page (script.js) instead;
+// we just call into it directly (same-origin) with the plot's URL and its
+// on-screen origin rect, translated into the *outer* page's coordinates.
+var zoomActive     = null;  // { wrap }
+var zoomEnterTimer = null;
+var currentMode    = 'Color: GT progress';
+
+function outerFrameRect() {
+  try {
+    return window.parent.document.getElementById('viz-compositor').getBoundingClientRect();
+  } catch (e) {
+    return { left: 0, top: 0 };
+  }
+}
+
+function attachZoom(wrap, iframe, title) {
+  wrap.addEventListener('mouseenter', function () {
+    clearTimeout(zoomEnterTimer);
+    if (zoomActive && zoomActive.wrap !== wrap) {
+      try { window.parent.__plotZoomClose(); } catch (e) {}
+      zoomActive = null;
+    }
+    if (zoomActive) return;
+    zoomEnterTimer = setTimeout(function () {
+      zoomActive = { wrap: wrap };
+      var outer = outerFrameRect();
+      var local = wrap.getBoundingClientRect();
+      var origin = {
+        left: outer.left + local.left, top: outer.top + local.top,
+        width: local.width, height: local.height,
+      };
+      try {
+        window.parent.__plotZoomOpen(iframe.src, origin, function () { zoomActive = null; }, currentMode, title);
+      } catch (e) {}
+    }, 420);
+  });
+  wrap.addEventListener('mouseleave', function () {
+    clearTimeout(zoomEnterTimer);
+  });
+}
+
+function build() {
+  var groups  = activeGroups();
+  var visible = EXPS.filter(function(e) { return groups.indexOf(e.group) !== -1; });
+  var f       = fname();
+
+  var existing = {};
+  row.querySelectorAll('.cell[data-key]').forEach(function(c) { existing[c.dataset.key] = c; });
+
+  if (visible.length === 0) { row.innerHTML = ''; save(); return; }
+
+  var toRender = [];
+  var pending  = visible.length;
+
+  visible.forEach(function(e) {
+    var key = e.dir + '|' + f;
+    var url = src(e.dir);
+    fetch(url, { method: 'HEAD' })
+      .then(function(r) { if (r.ok) toRender.push({ e: e, key: key }); })
+      .catch(function() { toRender.push({ e: e, key: key }); })  // CORS/network error → show anyway
+      .finally(function() { if (--pending === 0) flush(); });
+  });
+
+  function flush() {
+    var seen = {};
+    var frag = document.createDocumentFragment();
+    toRender.forEach(function(item) {
+      seen[item.key] = true;
+      var cell = existing[item.key] || makeCell(item.e, f);
+      frag.appendChild(cell);
+    });
+    Object.keys(existing).forEach(function(k) { if (!seen[k]) existing[k].remove(); });
+    row.innerHTML = '';
+    row.appendChild(frag);
+    save();
+    notifyHeight();
+  }
+}
+
+function notifyHeight() {
+  var h = document.getElementById('page').scrollHeight;
+  window.parent.postMessage({ type: 'viz-height', height: h }, '*');
+}
+
+// ── Mode broadcast ────────────────────────────────────────────────────────────
+function updateModeButtons() {
+  var isAllTasks = taskEl.value === '';
+  document.querySelectorAll('.mode-btn').forEach(function(btn) {
+    var mode = btn.dataset.mode;
+    var taskOnly = (mode === 'Color: task');
+    btn.style.display = (!isAllTasks && taskOnly) ? 'none' : '';
+  });
+}
+
+document.querySelectorAll('.mode-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var mode = btn.dataset.mode;
+    currentMode = mode;
+    document.querySelectorAll('iframe').forEach(function(f) {
+      try { f.contentWindow.postMessage({ action: 'setMode', mode: mode }, '*'); } catch(e) {}
+    });
+  });
+});
+
+// controls — radio behavior: only one group active at a time
+document.querySelectorAll('[data-group]').forEach(function(cb) {
+  cb.addEventListener('change', function() {
+    if (cb.checked) {
+      document.querySelectorAll('[data-group]').forEach(function(other) {
+        if (other !== cb) { other.checked = false; other.closest('.toggle').classList.remove('on'); }
+      });
+    }
+    cb.closest('.toggle').classList.toggle('on', cb.checked);
+    build();
+  });
+});
+taskEl.addEventListener('change', function() { build(); updateModeButtons(); });
+// persist
+function save() {
+  try {
+    localStorage.setItem('viz_comp2', JSON.stringify({
+      task: taskEl.value, groups: activeGroups()
+    }));
+  } catch(e) {}
+}
+function restore() {
+  try {
+    var s = JSON.parse(localStorage.getItem('viz_comp2') || 'null');
+    if (!s) return;
+    if (s.task !== undefined) taskEl.value = s.task;
+    if (s.groups && s.groups.length) {
+      var first = s.groups[0];
+      document.querySelectorAll('[data-group]').forEach(function(cb) {
+        var on = cb.dataset.group === first;
+        cb.checked = on;
+        cb.closest('.toggle').classList.toggle('on', on);
+      });
+    }
+  } catch(e) {}
+}
+
+restore();
+taskDD.sync();
+build();
+updateModeButtons();
+</script>
+</body>
+</html>
