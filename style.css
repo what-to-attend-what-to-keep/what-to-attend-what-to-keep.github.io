@@ -779,7 +779,7 @@ em { font-style: italic; }
   transition: background .15s, color .15s, border-color .15s;
 }
 .ep-pill:hover { border-color: var(--accent); }
-.ep-pill.active { background: var(--surface3); color: var(--text-muted); }
+.ep-pill.active { background: #b8b8b8; color: var(--text); border-color: #999; }
 .ep-pill.ep-good { border-color: #2a9a5a; }
 .ep-pill.ep-good.active { border-color: #2a9a5a; }
 .ep-pill.ep-bad  { border-color: var(--accent2); }
