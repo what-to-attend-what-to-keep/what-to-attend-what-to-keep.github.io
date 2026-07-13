@@ -297,10 +297,9 @@
         data-src="viz_compositor.html"
         scrolling="no"
         allowfullscreen
-        onload="document.getElementById('viz-offline').style.display='none';"
         onerror="document.getElementById('viz-offline').style.display='flex';"
       ></iframe>
-      <div class="viz-offline" id="viz-offline">
+      <div class="viz-offline" id="viz-offline" style="display:none;">
         <button onclick="document.getElementById('viz-compositor').src='viz_compositor.html';">Retry</button>
       </div>
     </div>

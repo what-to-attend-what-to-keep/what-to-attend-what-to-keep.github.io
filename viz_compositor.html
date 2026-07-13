@@ -302,7 +302,6 @@ function makeCell(e, fname) {
 
   var frame = document.createElement('iframe');
   frame.src = CHECKPOINTS_BASE + '/' + e.dir + '/' + effectiveFname;
-  frame.loading = 'lazy';
   frame.scrolling = 'no';
 
   wrap.appendChild(frame);
