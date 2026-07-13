@@ -17,7 +17,8 @@
   <link rel="canonical" href="https://what-to-attend-what-to-keep.github.io/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -124,7 +125,7 @@
 <section id="tasks" class="section reveal">
   <div class="container" style="position:relative;">
     <div class="gripper-float">
-      <img src="figs/umitac.png" alt="UMI gripper with integrated tactile sensors" class="gripper-img">
+      <img src="figs/umitac.png" alt="UMI gripper with integrated tactile sensors" class="gripper-img" loading="lazy">
       <div class="gripper-caption">UMI gripper + dual tactile</div>
     </div>
     <div class="section-head">
@@ -145,7 +146,7 @@
       <div class="task-card" data-task="lamp">
         <div class="task-accent" style="--task-color: #4a9e70;"></div>
         <div class="task-video-wrap">
-          <video class="task-video" src="videos/3rd_lamp_replacement.MP4" autoplay muted loop playsinline></video>
+          <video class="task-video" data-src="videos/3rd_lamp_replacement.MP4" muted loop playsinline preload="none"></video>
           <div class="task-tag" style="--task-color: #4a9e70;">Lamp Replacement</div>
         </div>
         <div class="task-body">
@@ -157,7 +158,7 @@
       <div class="task-card" data-task="bottle">
         <div class="task-accent" style="--task-color: #c07830;"></div>
         <div class="task-video-wrap">
-          <video class="task-video" src="videos/3rd_bottle_cap.MP4" autoplay muted loop playsinline></video>
+          <video class="task-video" data-src="videos/3rd_bottle_cap.MP4" muted loop playsinline preload="none"></video>
           <div class="task-tag" style="--task-color: #c07830;">Bottle Capping</div>
         </div>
         <div class="task-body">
@@ -169,7 +170,7 @@
       <div class="task-card" data-task="blind">
         <div class="task-accent" style="--task-color: #c04455;"></div>
         <div class="task-video-wrap">
-          <video class="task-video" src="videos/3rd_blind_search.MP4" autoplay muted loop playsinline></video>
+          <video class="task-video" data-src="videos/3rd_blind_search.MP4" muted loop playsinline preload="none"></video>
           <div class="task-tag" style="--task-color: #c04455;">Blind Cube Search</div>
         </div>
         <div class="task-body">
@@ -258,7 +259,7 @@
     <!-- Architecture figure -->
     <div class="arch-figure reveal">
       <div class="arch-fig-placeholder">
-        <img src="figs/architecture.svg" alt="SkillFormer Architecture" class="arch-img">
+        <img src="figs/architecture.svg" alt="SkillFormer Architecture" class="arch-img" loading="lazy">
       </div>
       <p class="fig-caption">
         <strong>SkillFormer.</strong>
@@ -293,7 +294,7 @@
     <div class="viz-embed-wrap">
       <iframe
         id="viz-compositor"
-        src="viz_compositor.html"
+        data-src="viz_compositor.html"
         scrolling="no"
         allowfullscreen
         onload="document.getElementById('viz-offline').style.display='none';"
@@ -340,7 +341,7 @@
         <div class="ep-pills" id="speedPills"></div>
       </div>
       <div class="vid-player-wrap" style="position:relative;">
-        <video id="fig3video" autoplay loop muted playsinline preload="auto" style="width:100%;display:block;background:#000;cursor:pointer;"></video>
+        <video id="fig3video" loop muted playsinline preload="none" style="width:100%;display:block;background:#000;cursor:pointer;"></video>
         <div id="fig3loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.85);color:var(--text-muted);font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;pointer-events:none;">Loading...</div>
       </div>
       <div class="vid-scrub-bar">
@@ -492,17 +493,25 @@
 
       // Progress bar — smooth via rAF
       var fill = document.getElementById('fig3fill');
+      var bar = fill.parentElement;
+      var pendingSeek = null;
       (function raf() {
-        if (video.duration) fill.style.width = (video.currentTime / video.duration * 100) + '%';
+        if (video.duration) {
+          fill.style.width = (video.currentTime / video.duration * 100) + '%';
+          if (pendingSeek !== null) {
+            if (video.fastSeek) video.fastSeek(pendingSeek);
+            else video.currentTime = pendingSeek;
+            pendingSeek = null;
+          }
+        }
         requestAnimationFrame(raf);
       })();
-      var bar = fill.parentElement;
+      var dragging = false;
       function scrubTo(e) {
         var r = bar.getBoundingClientRect();
         var t = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
-        if (video.duration) video.currentTime = t * video.duration;
+        if (video.duration) pendingSeek = t * video.duration;
       }
-      var dragging = false;
       bar.addEventListener('mousedown', function(e){ dragging = true; bar.style.cursor = 'grabbing'; video.pause(); scrubTo(e); });
       document.addEventListener('mousemove', function(e){ if (dragging) scrubTo(e); });
       document.addEventListener('mouseup', function(){ if (dragging) { dragging = false; bar.style.cursor = ''; video.play(); } });

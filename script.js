@@ -156,11 +156,37 @@ window.addEventListener('scroll', function () {
   }
 })();
 
-// ── Task video speed ──────────────────────────────────────────────
-document.querySelectorAll('.task-video').forEach(function (v) {
-  v.playbackRate = 1.8;
-  v.addEventListener('loadedmetadata', function () { v.playbackRate = 1.8; });
-});
+// ── Task video lazy-load + play on scroll ─────────────────────────
+(function () {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        if (!v.src && v.dataset.src) { v.src = v.dataset.src; }
+        v.playbackRate = 1.8;
+        v.play().catch(function(){});
+        io.unobserve(v);
+      }
+    });
+  }, { rootMargin: '200px' });
+  document.querySelectorAll('.task-video[data-src]').forEach(function (v) {
+    v.addEventListener('loadedmetadata', function () { v.playbackRate = 1.8; });
+    io.observe(v);
+  });
+})();
+
+// ── Iframe lazy-load ──────────────────────────────────────────────
+(function () {
+  var iframe = document.getElementById('viz-compositor');
+  if (!iframe || !iframe.dataset.src) return;
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      iframe.src = iframe.dataset.src;
+      io.disconnect();
+    }
+  }, { rootMargin: '400px' });
+  io.observe(iframe);
+})();
 
 // ── Skill data ────────────────────────────────────────────────────
 var SKILLS = {
@@ -709,7 +735,8 @@ document.querySelectorAll('.skill-tab').forEach(function (tab) {
 
   document.querySelectorAll('.task-card').forEach(function (card) {
     var wrap      = card.querySelector('.task-video-wrap');
-    var src       = card.querySelector('.task-video').src;
+    var tv        = card.querySelector('.task-video');
+    var src       = tv.src || tv.dataset.src;
     var hoverTimer = null;
 
     wrap.addEventListener('mouseenter', function () {
