@@ -309,8 +309,11 @@
 
 <!-- ─── RESULTS ─────────────────────────────────────────────────────── -->
 <section id="results" class="section reveal">
-  <div class="container">
-    <div class="results-split">
+  <div class="container" style="position:relative;">
+    <div class="results-demo-float">
+      <img src="figs/progress_demo.png" alt="Progress estimation demo across models" class="results-demo-img" loading="lazy">
+      <div class="results-demo-caption">Fig. 3 — progress curves across ablations</div>
+    </div>
     <div class="section-head">
       <span class="section-eyebrow">Experiments</span>
       <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
@@ -352,7 +355,6 @@
         Select a model and episode to compare predictions across ablations.
       </p>
     </div><!-- /curves-figure -->
-    </div><!-- /results-split -->
     <script>
     (function(){
       var TASKS = [
