@@ -148,8 +148,8 @@
 <div id="page">
   <div id="toolbar">
     <div class="toolbar-row">
-      <label class="toggle on" style="--tcolor:#ce1124"><input type="checkbox" checked data-group="plain" /><span class="toggle-dot"></span>Bottle Capping</label>
-      <label class="toggle" style="--tcolor:#4a9e70"><input type="checkbox" data-group="lamp" /><span class="toggle-dot"></span>Lamp Replacement</label>
+      <label class="toggle" style="--tcolor:#ce1124"><input type="checkbox" data-group="plain" /><span class="toggle-dot"></span>Bottle Capping</label>
+      <label class="toggle on" style="--tcolor:#4a9e70"><input type="checkbox" checked data-group="lamp" /><span class="toggle-dot"></span>Lamp Replacement</label>
       <label class="toggle" style="--tcolor:#6a7fc1"><input type="checkbox" data-group="blind_search" /><span class="toggle-dot"></span>Blind Search</label>
     </div>
     <div class="toolbar-row">
@@ -161,12 +161,12 @@
         <option value="grasp_bottle_cap"  data-group="plain">grasp bottle cap</option>
         <option value="reach_bottle_cap"  data-group="plain">reach bottle cap</option>
         <option value="reach_bottle"      data-group="plain">reach bottle</option>
-        <option value="slide_bottle_cap"  data-group="plain" selected>slide bottle cap</option>
+        <option value="slide_bottle_cap"  data-group="plain">slide bottle cap</option>
         <option value="align_bulb"        data-group="lamp">align bulb</option>
         <option value="grasp_bulb"        data-group="lamp">grasp bulb</option>
         <option value="reach_bulb"        data-group="lamp">reach bulb</option>
         <option value="reach_lamp_socket" data-group="lamp">reach lamp socket</option>
-        <option value="twist_bulb"        data-group="lamp">twist bulb</option>
+        <option value="twist_bulb"        data-group="lamp" selected>twist bulb</option>
         <option value="end"               data-group="lamp">withdraw</option>
       </select>
       <div class="sep"></div>
@@ -447,7 +447,7 @@ function restore() {
   try {
     var s = JSON.parse(localStorage.getItem('viz_comp2') || 'null');
     if (!s) return;
-    // task always defaults to slide_bottle_cap on load — don't restore from storage
+    // task always defaults to twist_bulb (lamp) on load — don't restore from storage
     if (s.groups && s.groups.length) {
       var first = s.groups[0];
       document.querySelectorAll('input[data-group]').forEach(function(cb) {
