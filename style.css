@@ -747,11 +747,17 @@ em { font-style: italic; }
 .fig-caption strong { color: var(--text); }
 
 /* ── Results ───────────────────────────────────────────────────────── */
-.results-demo-float {
-  position: absolute;
-  top: 0; right: 0;
-  width: 420px;
-  z-index: 2;
+.results-head-body {
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;
+}
+.results-head-body .section-desc {
+  flex: 1;
+  max-width: none;
+}
+.results-demo-aside {
+  flex: 0 0 480px;
   text-align: center;
 }
 .results-demo-img {
@@ -992,7 +998,8 @@ em { font-style: italic; }
   .section { padding: 64px 0; }
 
   .gripper-float { display: none; }
-  .results-demo-float { display: none; }
+  .results-head-body { flex-direction: column; }
+  .results-demo-aside { flex: none; width: 100%; }
   .viz-zoom-hint { display: none; }
 
   .table-wrap { overflow-x: auto; }

@@ -309,20 +309,22 @@
 
 <!-- ─── RESULTS ─────────────────────────────────────────────────────── -->
 <section id="results" class="section reveal">
-  <div class="container" style="position:relative;">
-    <div class="results-demo-float">
-      <img src="figs/progress_demo.png" alt="Progress estimation demo across models" class="results-demo-img" loading="lazy">
-      <div class="results-demo-caption">Fig. 3 — progress curves across ablations</div>
-    </div>
+  <div class="container">
     <div class="section-head">
       <span class="section-eyebrow">Experiments</span>
       <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
-      <p class="section-desc">
-        Progress estimation directly measures whether a representation captures the right modality
-        at the right time. We compare SkillFormer against observation formulations common in
-        manipulation policies. Strongest gains appear on skills whose completion depends on
-        contact state, tactile evolution, or transitions between nearby manipulation phases.
-      </p>
+      <div class="results-head-body">
+        <p class="section-desc">
+          Progress estimation directly measures whether a representation captures the right modality
+          at the right time. We compare SkillFormer against observation formulations common in
+          manipulation policies. Strongest gains appear on skills whose completion depends on
+          contact state, tactile evolution, or transitions between nearby manipulation phases.
+        </p>
+        <div class="results-demo-aside">
+          <img src="figs/progress_demo.png" alt="Progress estimation demo across models" class="results-demo-img" loading="lazy">
+          <div class="results-demo-caption">Fig. 3 — progress curves across ablations</div>
+        </div>
+      </div>
     </div>
 
     <!-- Progress curve figure — interactive video player -->
