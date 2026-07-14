@@ -605,7 +605,7 @@ function buildTimeline(taskKey, color, onComplete) {
     node.innerHTML =
       '<div class="tnode-circle">' +
         '<span class="tnode-idx">' + sk.name + '</span>' +
-        '<svg class="tnode-ring" viewBox="0 0 100 60" width="100" height="60">' +
+        '<svg class="tnode-ring" viewBox="0 0 102 62" width="102" height="62">' +
           '<rect class="tnode-ring-track" x="2" y="2" width="96" height="56" rx="28"/>' +
           '<rect class="tnode-ring-fill"  x="2" y="2" width="96" height="56" rx="28"/>' +
         '</svg>' +

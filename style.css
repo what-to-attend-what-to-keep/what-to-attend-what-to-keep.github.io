@@ -480,7 +480,7 @@ em { font-style: italic; }
 /* ── Subtask progress ring (SVG border around pill) ──────────────── */
 .tnode-circle { position: relative; overflow: visible; }
 .tnode-ring {
-  position: absolute; top: -2px; left: -2px;
+  position: absolute; top: -3px; left: -3px;
   pointer-events: none; overflow: visible;
 }
 .tnode-ring-track {
