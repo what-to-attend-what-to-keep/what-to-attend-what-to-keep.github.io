@@ -150,7 +150,7 @@
     <div class="toolbar-row">
       <label class="toggle" style="--tcolor:#ce1124"><input type="checkbox" data-group="plain" /><span class="toggle-dot"></span>Bottle Capping</label>
       <label class="toggle on" style="--tcolor:#4a9e70"><input type="checkbox" checked data-group="lamp" /><span class="toggle-dot"></span>Lamp Replacement</label>
-      <label class="toggle" style="--tcolor:#6a7fc1"><input type="checkbox" data-group="blind_search" /><span class="toggle-dot"></span>Blind Search</label>
+      <label class="toggle" style="--tcolor:#6a7fc1;display:none"><input type="checkbox" data-group="blind_search" /><span class="toggle-dot"></span>Blind Search</label>
     </div>
     <div class="toolbar-row">
       <label>Subtask:</label>
@@ -403,7 +403,7 @@ function updateModeButtons() {
   document.querySelectorAll('.mode-btn').forEach(function(btn) {
     var mode = btn.dataset.mode;
     var taskOnly = (mode === 'Color: task');
-    btn.style.display = (!isAllTasks && taskOnly) ? 'none' : '';
+    btn.style.display = (isAllTasks && taskOnly) ? 'none' : '';
   });
 }
 
