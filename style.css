@@ -752,8 +752,11 @@ em { font-style: italic; }
   gap: 36px;
   align-items: flex-start;
 }
-.results-head-body .section-desc {
+.results-head-left {
   flex: 1;
+  min-width: 0;
+}
+.results-head-left .section-desc {
   max-width: none;
 }
 .results-demo-aside {
@@ -1007,6 +1010,7 @@ em { font-style: italic; }
 
   .gripper-float { display: none; }
   .results-head-body { flex-direction: column; }
+  .results-head-left { width: 100%; }
   .results-demo-aside { flex: none; width: 100%; }
   .viz-zoom-hint { display: none; }
 

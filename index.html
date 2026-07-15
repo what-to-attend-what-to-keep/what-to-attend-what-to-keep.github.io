@@ -313,8 +313,9 @@
   <div class="container">
     <div class="section-head">
       <span class="section-eyebrow">Experiments</span>
-      <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
       <div class="results-head-body">
+        <div class="results-head-left">
+        <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
         <p class="section-desc">
           Progress estimation directly measures whether a representation captures the right modality
           at the right time. We compare SkillFormer against observation formulations common in
@@ -327,12 +328,13 @@
           tactile horizon, and <em>slide</em> depends on retaining a transient slippage event that
           vanishes within a few frames — demanding an explicit event memory for robust representation.
         </p>
+        </div><!-- /results-head-left -->
         <div class="results-demo-aside">
           <img src="figs/progress_demo.png" alt="Progress estimation demo across models" class="results-demo-img" loading="lazy">
           <p class="results-demo-note">
-            <em>Slide bottle cap</em> — SkillFormer (top-left) detects the slippage event and
-            predicts skill completion on time. FiLM, vision-only, and w/o-Events models show
-            substantial delay, only rising toward completion once the robot has already
+            SkillFormer (top-left) detects the slippage event and
+            predicts skill completion on time. FiLM, no tactile, and events models show
+            delay, only rising toward completion once the robot has already
             transitioned into the next subtask.
           </p>
         </div>
