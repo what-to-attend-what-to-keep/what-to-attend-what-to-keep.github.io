@@ -387,18 +387,26 @@
       function showLoading(){ loading.style.display = 'flex'; }
       function hideLoading(){ loading.style.display = 'none'; }
 
+      video.addEventListener('canplay',       hideLoading);
       video.addEventListener('canplaythrough', hideLoading);
-      video.addEventListener('playing', hideLoading);
+      video.addEventListener('playing',        hideLoading);
+      video.addEventListener('loadeddata',     hideLoading);
       video.addEventListener('waiting', showLoading);
 
+      var _readyHandler = null;
       function pad(n){ return String(n).padStart(4,'0'); }
       function update() {
         var rate = video.playbackRate || 3;
         showLoading();
+        if (_readyHandler) { video.removeEventListener('canplay', _readyHandler); _readyHandler = null; }
         video.src = 'checkpoints/' + activeModel + '/videos_red/ep_' + pad(activeEp) + '.mp4';
         video.load();
-        video.playbackRate = rate;
-        video.play().catch(function(){});
+        _readyHandler = function() {
+          _readyHandler = null;
+          video.playbackRate = rate;
+          video.play().catch(function(){});
+        };
+        video.addEventListener('canplay', _readyHandler, { once: true });
       }
 
       var epPills    = document.getElementById('epPills');
