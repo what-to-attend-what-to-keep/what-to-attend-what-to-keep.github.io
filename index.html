@@ -316,15 +316,16 @@
       <h2 class="section-title">Progress Estimation as a Representation Probe</h2>
       <div class="results-head-body">
         <p class="section-desc">
-          Not all skills are equally hard to represent. Smooth pick-and-place primitives like
-          <em>reach</em> and <em>grasp</em> are well-served by simple observation formulations —
-          progress correlates directly with visual proximity, making them tractable even without
-          tactile input or memory. But skills like <em>twist</em> and <em>align</em> require
-          detecting subtle force patterns that only emerge over a longer tactile horizon, and
-          <em>slide</em> depends on retaining a transient slippage event that vanishes within
-          a few frames. Progress estimation surfaces these distinctions directly: a representation
-          that captures slippage, contact evolution, and phase transitions earns lower error;
-          one that misses them plateaus or fails abruptly at exactly the skills where it matters.
+          Progress estimation directly measures whether a representation captures the right modality
+          at the right time. We compare SkillFormer against observation formulations common in
+          manipulation policies. Strongest gains appear on skills whose completion depends on
+          contact state, tactile evolution, or transitions between nearby manipulation phases.
+          Smooth pick-and-place primitives like <em>reach</em> and <em>grasp</em> are well-served
+          by simple observation formulations — progress correlates directly with visual proximity,
+          making them tractable even without tactile input or memory. But skills like <em>twist</em>
+          and <em>align</em> require detecting subtle force patterns that only emerge over a longer
+          tactile horizon, and <em>slide</em> depends on retaining a transient slippage event that
+          vanishes within a few frames — demanding an explicit event memory for robust representation.
         </p>
         <div class="results-demo-aside">
           <img src="figs/progress_demo.png" alt="Progress estimation demo across models" class="results-demo-img" loading="lazy">
