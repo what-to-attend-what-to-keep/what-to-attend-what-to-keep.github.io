@@ -345,7 +345,7 @@
         <div class="ep-pills" id="speedPills"></div>
       </div>
       <div class="vid-player-wrap" style="position:relative;">
-        <video id="fig3video" loop muted playsinline preload="none" style="width:100%;display:block;background:#000;cursor:pointer;"></video>
+        <video id="fig3video" loop muted playsinline preload="metadata" style="width:100%;display:block;background:#000;cursor:pointer;"></video>
         <div id="fig3loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.85);color:var(--text-muted);font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;pointer-events:none;">Loading...</div>
       </div>
       <div class="vid-scrub-bar">
@@ -391,22 +391,14 @@
       video.addEventListener('canplaythrough', hideLoading);
       video.addEventListener('playing',        hideLoading);
       video.addEventListener('loadeddata',     hideLoading);
-      video.addEventListener('waiting', showLoading);
 
-      var _readyHandler = null;
       function pad(n){ return String(n).padStart(4,'0'); }
       function update() {
         var rate = video.playbackRate || 3;
         showLoading();
-        if (_readyHandler) { video.removeEventListener('canplay', _readyHandler); _readyHandler = null; }
         video.src = 'checkpoints/' + activeModel + '/videos_red/ep_' + pad(activeEp) + '.mp4';
-        video.load();
-        _readyHandler = function() {
-          _readyHandler = null;
-          video.playbackRate = rate;
-          video.play().catch(function(){});
-        };
-        video.addEventListener('canplay', _readyHandler, { once: true });
+        video.playbackRate = rate;
+        video.play().catch(function(){});
       }
 
       var epPills    = document.getElementById('epPills');
