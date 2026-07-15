@@ -511,14 +511,17 @@
         requestAnimationFrame(raf);
       })();
       var dragging = false;
-      function scrubTo(e) {
+      function scrubTo(clientX) {
         var r = bar.getBoundingClientRect();
-        var t = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+        var t = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
         if (video.duration) pendingSeek = t * video.duration;
       }
-      bar.addEventListener('mousedown', function(e){ dragging = true; bar.style.cursor = 'grabbing'; video.pause(); scrubTo(e); });
-      document.addEventListener('mousemove', function(e){ if (dragging) scrubTo(e); });
+      bar.addEventListener('mousedown', function(e){ dragging = true; bar.style.cursor = 'grabbing'; video.pause(); scrubTo(e.clientX); });
+      document.addEventListener('mousemove', function(e){ if (dragging) scrubTo(e.clientX); });
       document.addEventListener('mouseup', function(){ if (dragging) { dragging = false; bar.style.cursor = ''; video.play(); } });
+      bar.addEventListener('touchstart', function(e){ dragging = true; video.pause(); scrubTo(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
+      document.addEventListener('touchmove', function(e){ if (dragging) { scrubTo(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+      document.addEventListener('touchend', function(){ if (dragging) { dragging = false; video.play().catch(function(){}); } });
     })();
     </script>
 

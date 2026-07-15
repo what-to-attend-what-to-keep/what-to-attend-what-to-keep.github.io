@@ -584,6 +584,7 @@ function buildTimeline(taskKey, color, onComplete) {
 
     curVideo = detail.querySelector('.detail-video');
     if (curVideo) {
+      curVideo.play().catch(function(){});
       var onMeta = function () {
         var dur = curVideo && curVideo.duration;
         if (!dur || !isFinite(dur)) return;
