@@ -118,7 +118,7 @@ em { font-style: italic; }
 }
 .section-desc {
   font-size: 16px; color: var(--text-muted);
-  max-width: 660px; line-height: 1.8;
+  line-height: 1.8;
 }
 .section-hint {
   margin-top: 12px; font-size: 13px; color: var(--text-dim);
