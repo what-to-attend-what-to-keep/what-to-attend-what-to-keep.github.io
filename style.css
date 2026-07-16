@@ -575,6 +575,7 @@ em { font-style: italic; }
   display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
   background: var(--surface); border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
   border-radius: 12px; padding: 24px; overflow: hidden;
   box-shadow: 0 2px 16px rgba(0,0,0,.06);
 }
