@@ -426,21 +426,14 @@ function buildTimeline(taskKey, color, onComplete) {
         tacVidsCurrent = tacVids;
         var done    = 0;
         tacVids.forEach(function (v) {
-          var plays = 0;
           v.playbackRate = 1/9;
           v.play().catch(function () {
             if (generation === myGen && inTactilePhase && ++done >= tacVids.length) scheduleAdvance(TRANSITION_MS);
           });
           v.addEventListener('ended', function onEnd() {
             if (generation !== myGen || !inTactilePhase) return;
-            plays++;
-            if (plays < 2) {
-              v.currentTime = 0;
-              v.play().catch(function () { v.removeEventListener('ended', onEnd); if (++done >= tacVids.length) scheduleAdvance(TRANSITION_MS); });
-            } else {
-              v.removeEventListener('ended', onEnd);
-              if (++done >= tacVids.length) scheduleAdvance(TRANSITION_MS);
-            }
+            v.removeEventListener('ended', onEnd);
+            if (++done >= tacVids.length) scheduleAdvance(TRANSITION_MS);
           });
           v.addEventListener('error', function () {
             if (generation === myGen && inTactilePhase && ++done >= tacVids.length) scheduleAdvance(TRANSITION_MS);
