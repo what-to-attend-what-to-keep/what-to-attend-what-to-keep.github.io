@@ -731,6 +731,8 @@ em { font-style: italic; }
   line-height: 1.8;
 }
 
+#tasks .section-desc { max-width: calc(100% - 390px); }
+
 /* Floating gripper */
 .gripper-float {
   position: absolute;
