@@ -210,10 +210,15 @@ em { font-style: italic; }
   margin-bottom: 16px; opacity: 0;
 }
 .hero-byline {
-  font-family: var(--f-mono); font-size: 15px;
-  color: var(--text); letter-spacing: .04em;
+  font-family: var(--f-body); font-size: 15px; font-weight: 500;
+  color: var(--text); letter-spacing: .01em;
+  margin-top: 28px; margin-bottom: 20px; opacity: 0;
+}
+.hero-affiliation {
+  display: flex; justify-content: center;
   margin-bottom: 36px; opacity: 0;
 }
+.umd-logo { height: 52px; width: auto; }
 .hero-tldr {
   font-size: 15px; color: var(--text-muted);
   max-width: 640px; margin: 0 auto 36px;
@@ -226,10 +231,11 @@ em { font-style: italic; }
   display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
   margin-bottom: 60px; opacity: 0;
 }
-#hero.in-view .hero-sub    { animation: fadeUp .7s ease both 2450ms; }
-#hero.in-view .hero-byline { animation: fadeUp .7s ease both 2550ms; }
-#hero.in-view .hero-tldr   { animation: fadeUp .7s ease both 2650ms; }
-#hero.in-view .hero-links  { animation: fadeUp .7s ease both 2750ms; }
+#hero.in-view .hero-sub         { animation: fadeUp .7s ease both 2450ms; }
+#hero.in-view .hero-byline      { animation: fadeUp .7s ease both 2550ms; }
+#hero.in-view .hero-affiliation { animation: fadeUp .7s ease both 2620ms; }
+#hero.in-view .hero-tldr        { animation: fadeUp .7s ease both 2700ms; }
+#hero.in-view .hero-links       { animation: fadeUp .7s ease both 2800ms; }
 .hlink {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 10px 22px;
