@@ -334,6 +334,22 @@ function preloadVideoUrl(url) {
   document.body.appendChild(v);
   _preloadCache[url] = v;
 }
+function claimVideo(url, className) {
+  var v = _preloadCache[url];
+  if (v) {
+    delete _preloadCache[url];
+    if (v.parentNode) v.parentNode.removeChild(v);
+    v.style.cssText = '';
+    v.currentTime = 0;
+  } else {
+    v = document.createElement('video');
+    v.src = url;
+  }
+  v.className = className;
+  v.muted = true;
+  v.setAttribute('playsinline', '');
+  return v;
+}
 
 function buildTimeline(taskKey, color, onComplete) {
   var skills  = SKILLS[taskKey];
@@ -452,7 +468,18 @@ function buildTimeline(taskKey, color, onComplete) {
       if (typeof onComplete === 'function') { onComplete(); return; }
       next = 0;
     }
-    playIdx(next);
+    var nextSk = skills[next];
+    var preloadedNext = nextSk && _preloadCache[nextSk.video];
+    if (preloadedNext && preloadedNext.readyState < 3) {
+      // Next video still buffering — hold current in loop until ready, no flash
+      if (curVideo) { curVideo.loop = true; curVideo.play().catch(function(){}); }
+      preloadedNext.addEventListener('canplay', function () {
+        if (curVideo) curVideo.loop = false;
+        playIdx(next);
+      }, { once: true });
+    } else {
+      playIdx(next);
+    }
   }
 
   function scheduleAdvance(ms) {
@@ -514,11 +541,11 @@ function buildTimeline(taskKey, color, onComplete) {
         '<div class="detail-tactile-label">Tactile readings</div>' +
         '<div class="detail-tactile-videos">' +
           '<div class="detail-tac-wrap">' +
-            '<video class="detail-tac-video" src="' + sk.tac2 + '" muted playsinline preload="auto"></video>' +
+            '<div class="detail-tac-slot" data-url="' + sk.tac2 + '"></div>' +
             '<span class="detail-tac-tag">Left</span>' +
           '</div>' +
           '<div class="detail-tac-wrap">' +
-            '<video class="detail-tac-video" src="' + sk.tac1 + '" muted playsinline preload="auto"></video>' +
+            '<div class="detail-tac-slot" data-url="' + sk.tac1 + '"></div>' +
             '<span class="detail-tac-tag">Right</span>' +
           '</div>' +
         '</div>' +
@@ -527,7 +554,7 @@ function buildTimeline(taskKey, color, onComplete) {
     detail.innerHTML =
       '<div class="skill-detail-inner">' +
         '<div class="detail-video-wrap">' +
-          '<video class="detail-video" src="' + sk.video + '" autoplay muted playsinline></video>' +
+          '<div class="detail-video-slot"></div>' +
         '</div>' +
         '<div class="detail-info">' +
           '<div class="detail-skill-name">' + sk.name + '</div>' +
@@ -538,6 +565,21 @@ function buildTimeline(taskKey, color, onComplete) {
         '</div>' +
       '</div>';
     detail.classList.add('open');
+
+    // Inject main video from preload cache to avoid blank flash
+    var mainSlot = detail.querySelector('.detail-video-slot');
+    var mainVid = claimVideo(sk.video, 'detail-video');
+    mainSlot.parentNode.replaceChild(mainVid, mainSlot);
+
+    // Inject tac videos
+    if (sk.tac1) {
+      detail.querySelectorAll('.detail-tac-slot').forEach(function(slot) {
+        var url = slot.getAttribute('data-url');
+        var tacVid = claimVideo(url, 'detail-tac-video');
+        tacVid.preload = 'auto';
+        slot.parentNode.replaceChild(tacVid, slot);
+      });
+    }
   }
 
   function playIdx(i) {
