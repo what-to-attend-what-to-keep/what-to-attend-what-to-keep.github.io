@@ -218,7 +218,7 @@ em { font-style: italic; }
   display: flex; justify-content: center;
   margin-bottom: 36px; opacity: 0;
 }
-.umd-logo { height: 52px; width: auto; }
+.umd-logo { height: 80px; width: auto; }
 .author-link { color: inherit; border-bottom: 1px solid var(--border2); transition: color .2s, border-color .2s; }
 .author-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .hero-tldr {
