@@ -251,10 +251,27 @@
     <div class="section-head">
       <span class="section-eyebrow">Architecture</span>
       <h2 class="section-title">How does it work?</h2>
-      <p class="section-desc">
-        Three design decisions address the core challenge of observation formation
-        for contact-rich manipulation.
-      </p>
+    </div>
+
+    <!-- Short vs long memory figure -->
+    <div class="mem-figure reveal">
+      <div class="mem-figure-img-wrap">
+        <img src="figs/long_vs_short_mem.png" alt="Short-term vs long-term memory in SkillFormer" class="mem-figure-img" loading="lazy">
+      </div>
+      <div class="mem-figure-text">
+        <p class="mem-figure-desc">
+          Given a language description of the current skill, SkillFormer tokenizes RGB and tactile
+          frames over modality-specific horizons where vision has a short recent window, and tactile has a
+          longer one as it requires longer horizon to , and appends a small set of <strong>event tokens</strong> sampled from the
+          boundary of each completed skill. A frozen CLIP text encoder encodes the queried skill
+          into a language token. All tokens carry temporal, modality, and event embeddings that tell
+          the transformer <em>when</em> each observation was captured, <em>which sensor</em> it came
+          from, and <em>whether</em> it belongs to the current window or to long-term memory.
+          A GPT-style transformer fuses this mixed context via bidirectional self-attention and
+          decodes a scalar progress estimate — learning, in effect, which modality to attend to
+          and which past states to keep for each skill.
+        </p>
+      </div>
     </div>
 
     <!-- Architecture figure -->
@@ -269,34 +286,6 @@
         and event embeddings. A GPT-style transformer fuses them via bidirectional self-attention
         and decodes scalar progress.
       </p>
-    </div>
-
-    <!-- Short vs long memory figure -->
-    <div class="mem-figure reveal">
-      <div class="mem-figure-body">
-        <div class="mem-figure-text">
-          <h3 class="mem-figure-title">Short-term and Long-term Memory</h3>
-          <p class="mem-figure-desc">
-            Different skills operate on different time scales.
-            <strong>Short-term memory</strong> maintains a sliding window of recent visuo-tactile
-            tokens — enough to detect ongoing contact patterns like alignment or force buildup
-            within the current skill. <strong>Long-term event memory</strong> reaches further back,
-            retaining only the key state at the boundary of each completed skill. This sparse
-            record gives the model the context it needs to interpret the current phase: knowing
-            that the previous skill reached its terminal state is often the only signal that
-            distinguishes one manipulation phase from the next.
-          </p>
-          <p class="mem-figure-desc">
-            Temporal, modality, and event embeddings distinguish <em>when</em> an observation
-            was made, <em>which sensor</em> produced it, and <em>whether</em> it came from
-            the current window or from long-term memory — letting the transformer treat
-            short and long-range context through a unified attention mechanism.
-          </p>
-        </div>
-        <div class="mem-figure-img-wrap">
-          <img src="figs/long_vs_short_mem.png" alt="Short-term vs long-term memory in SkillFormer" class="mem-figure-img" loading="lazy">
-        </div>
-      </div>
     </div>
   </div>
 </section>
