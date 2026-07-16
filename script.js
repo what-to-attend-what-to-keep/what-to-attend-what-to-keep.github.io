@@ -325,11 +325,23 @@ function ptypeBadge(pt) {
 
 var TRANSITION_MS = 750;
 
+var _preloadCache = {};
+function preloadVideoUrl(url) {
+  if (!url || _preloadCache[url]) return;
+  var v = document.createElement('video');
+  v.src = url; v.preload = 'auto'; v.muted = true;
+  v.style.cssText = 'position:absolute;width:0;height:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(v);
+  _preloadCache[url] = v;
+}
+
 function buildTimeline(taskKey, color, onComplete) {
   var skills  = SKILLS[taskKey];
   var nodesEl = document.getElementById(taskKey + '-nodes');
   var detail  = document.getElementById(taskKey + '-detail');
   if (!nodesEl || !detail) return { start: function(){}, stop: function(){} };
+  // Preload first skill video immediately
+  if (skills[0]) preloadVideoUrl(skills[0].video);
 
   var activeIdx       = -1;
   var advanceTimer    = null;
@@ -581,6 +593,13 @@ function buildTimeline(taskKey, color, onComplete) {
     }
 
     renderDetail(skills[i]);
+
+    // Preload next skill's videos while current is playing
+    var next = skills[i + 1];
+    if (next) {
+      preloadVideoUrl(next.video);
+      if (next.tac1) { preloadVideoUrl(next.tac1); preloadVideoUrl(next.tac2); }
+    }
 
     curVideo = detail.querySelector('.detail-video');
     if (curVideo) {
