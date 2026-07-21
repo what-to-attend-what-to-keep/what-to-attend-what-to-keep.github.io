@@ -574,8 +574,13 @@
     <div class="takeaways reveal">
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
-        <p><strong>Tactile is decisive at skill boundaries.</strong> On <em>twist bulb</em>, <em>align bottle cap/bulb</em>, and <em>slide cap</em>, SkillFormer retains slippage and contact events in memory, letting the model correctly identify the observations that signal completion for each subtask.</p>
+        <p><strong>Tactile is decisive at skill boundaries.</strong> Some skills like <em>slide cap</em> depend on a single slippage event. A model that misses it and cannot retain it in memory has no way to detect completion again, and must instead infer it from unrelated later observations, producing noisy and delayed predictions. Vision Only and w/o-Events models fall into exactly this failure mode, while SkillFormer retains the event and predicts completion on time.</p>
       </div>
+      <div class="takeaway">
+        <div class="takeaway-icon">✦</div>
+        <p><strong>SkillFormer excels at skills that require reading tactile patterns over time.</strong> Unlike <em>slide cap</em>, which is detected by a single slippage frame, <em>align</em> completion unfolds over a longer horizon of tactile evolution. SkillFormer reliably detects the alignment moment by tracking this gradual pattern. FiLM, which simply concatenates observations along the horizon axis, cannot extract this structure and performs only slightly better than Vision Only, which has no tactile data at all.</p>
+      </div>
+
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
         <p><strong>Event memory resolves ambiguity.</strong> The w/o-Events model shows large errors on <em>align cap</em> (0.09 vs 0.01), confirming that skill boundaries are ambiguous without a stored reference to the terminal state of the previous skill.</p>
@@ -587,10 +592,6 @@
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
         <p><strong>Tactile pretraining is essential, not just tactile input.</strong> The w/o-FAF model, which replaces the FeelAnyForce encoder with an untrained one, performs nearly as poorly as Vision Only. Raw tactile signals without a pretrained encoder contribute little, indicating that the quality of tactile representation matters as much as its presence.</p>
-      </div>
-      <div class="takeaway">
-        <div class="takeaway-icon">✦</div>
-        <p><strong>SkillFormer excels at skills that require reading tactile patterns over time.</strong> Unlike <em>slide cap</em>, which is detected by a single slippage frame, <em>align</em> completion unfolds over a longer horizon of tactile evolution. SkillFormer reliably detects the alignment moment by tracking this gradual pattern. FiLM, which simply concatenates observations along the horizon axis, cannot extract this structure and performs only slightly better than Vision Only, which has no tactile data at all.</p>
       </div>
     </div>
   </div>
