@@ -574,7 +574,7 @@
     <div class="takeaways reveal">
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
-        <p><strong>A missed event cannot be recovered.</strong> Some skills like <em>slide cap</em> depend on a single slippage event for completion. A model that misses it and cannot retain it in memory has no way to detect completion again, and can even forget the event happened at all, causing progress to fall back, as seen in FiLM. It must then infer completion from unrelated later observations, producing noisy and delayed predictions. Vision Only and w/o-Events models fall into exactly this failure mode, while SkillFormer retains the event and predicts completion on time.</p>
+        <p><strong>A missed event cannot be recovered.</strong> Some skills like <em>slide cap</em> depend on a single slippage event for completion. A model that misses it and cannot retain it in memory has no way to detect completion again, and can even forget the event happened at all, causing progress to fall back, as seen in FiLM. It must then infer completion from delayed progress signals, producing noisy and delayed predictions. Vision Only and w/o-Events models fall into exactly this failure mode, while SkillFormer retains the event and predicts completion on time.</p>
       </div>
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
