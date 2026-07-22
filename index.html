@@ -63,7 +63,7 @@
       <span><a class="author-link" href="https://amirshahid.github.io/" target="_blank">Amir-Hossein Shahidzadeh</a></span>, <span>
       <a class="author-link" href="https://sjlee.cc/" target="_blank">Seungjae Lee</a></span>, <span>
       <a class="author-link" href="https://www.cs.umd.edu/~edessale/" target="_blank">Eadom Dessalene</a></span>, <span>
-      Shanthosh Mageswari</span>, <span>
+      <a class="author-link" href="https://shanthoshraaj1a.github.io/" target="_blank"> Shanthosh Mageswari</a></span>, <span>
       <a class="author-link" href="https://www.linkedin.com/in/soroush-etemad/" target="_blank">Soroush Etemad</a></span>, <span>
       <a class="author-link" href="https://furong-huang.com/" target="_blank">Furong Huang</a></span>, <span>
       <a class="author-link" href="http://www.umiacs.umd.edu/~fer" target="_blank">Cornelia Fermüller</a></span>, <span>
@@ -574,11 +574,11 @@
     <div class="takeaways reveal">
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
-        <p><strong>A missed event cannot be recovered.</strong> Some skills like <em>slide cap</em> depend on a single slippage event for completion. A model that misses it and cannot retain it in memory has no way to detect completion again, and can even forget the event happened at all, causing progress to fall back, as seen in FiLM. It must then infer completion from delayed progress signals, producing noisy and delayed predictions. Vision Only and w/o-Events models fall into exactly this failure mode, while SkillFormer retains the event and predicts completion on time.</p>
+        <p><strong>A missed event cannot be recovered.</strong> Skills like <em>slide cap</em> depend on a single slippage event for completion. Without memory, the event can fall out of the observation horizon and be forgotten entirely, causing progress to fall back as in FiLM, and the model must infer completion from delayed signals instead. SkillFormer retains the event and predicts completion on time.</p>
       </div>
       <div class="takeaway">
         <div class="takeaway-icon">✦</div>
-        <p><strong>SkillFormer excels at skills that require reading tactile patterns over time.</strong> Unlike <em>slide cap</em>, which is detected by a single slippage frame, <em>align</em> completion unfolds over a longer horizon of tactile evolution. SkillFormer reliably detects the alignment moment by tracking this gradual pattern. FiLM, which simply concatenates observations along the horizon axis, cannot extract this structure and performs only slightly better than Vision Only, which has no tactile data at all.</p>
+        <p><strong>SkillFormer excels at skills that require reading tactile patterns over time.</strong> Unlike <em>slide cap</em>, which is detected by a single slippage frame, <em>align</em> completion unfolds over a longer horizon of tactile evolution. SkillFormer reliably detects the alignment moment by tracking this gradual pattern. FiLM and w/o events, which simply concatenates observations along the horizon axis, cannot extract this structure and performs only slightly better than Vision Only, which has no tactile data at all.</p>
       </div>
 
       <div class="takeaway">
