@@ -408,15 +408,24 @@
           { dir: 'language_h2',             name: 'Ours (H=2)',  eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [100,109,140,144] },
           { dir: 'language_no_faf',         name: 'w/o FAF',     eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [61,77,100,108,109,121,140,142,144] },
           { dir: 'language_no_tac',         name: 'Vision Only', eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [12,61,77,100,108,109,121,140,142] },
-          { dir: 'language_no_events',      name: 'w/o Events',  eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [140,144] },
+          { dir: 'language_no_events',      name: 'w/o Events',  eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [12,13,61,77,100,108,109,121,140,142,144] },
           { dir: 'language_film',           name: 'FiLM',        eps: [12,13,61,77,100,108,109,121,140,142,144], badEps: [13,140,144,12,77,109,108,100] },
+          { dir: 'language_robometer',      name: 'Robometer',   eps: [12,13,29,61,77,100,108,109,121,140,142,144] },
         ]},
         { name: 'Lamp Replacement', defaultEp: 110, models: [
           { dir: 'lamp_language',                name: 'Ours',        eps: [10,22,47,60,70,78,82,94,110,113], badEps: [22,70,94] },
           { dir: 'lamp_language_h2',             name: 'H=2',         eps: [10,22,47,60,70,78,82,94,110,113], badEps: [10,22,70,94] },
           { dir: 'lamp_language_no_tac',         name: 'Vision Only', eps: [10,22,47,60,70,78,82,94,110,113], badEps: [10,22,60,70,82,94,110] },
-          { dir: 'lamp_language_no_events',      name: 'w/o Events',  eps: [10,22,47,60,70,78,82,94,110],    badEps: [10,22,60,70,94] },
-          { dir: 'lamp_language_film',           name: 'FiLM',        eps: [10,22,47,60,70,78,82,94,110],    badEps: [10,22,60,94,113] },
+          { dir: 'lamp_language_no_events',      name: 'w/o Events',  eps: [10,22,47,60,70,78,82,94,110,113],    badEps: [10,22,60,70,94] },
+          { dir: 'lamp_language_film',           name: 'FiLM',        eps: [10,22,47,60,70,78,82,94,110,113],    badEps: [10,22,60,94,113] },
+          { dir: 'lamp_robometer',               name: 'Robometer',   eps: [9,10,22,47,60,70,78,82,94,108,110,113] },
+        ]},
+        { name: 'Blind Search', defaultEp: 96, videoSubdir: 'videos_horizon', models: [
+          { dir: 'blind_search',           name: 'Ours',        eps: [96,102,105,109,116,134,136,138] },
+          { dir: 'blind_search_n3',        name: 'N=3',         eps: [11,13,28,58,74,87] },
+          { dir: 'blind_search_no_events', name: 'w/o Events',  eps: [11,13,28,58,74,87,96,102,105,109,116,134,136,138] },
+          { dir: 'blind_search_no_tac',    name: 'Vision Only', eps: [11,13,28,58,74,87,96,102,105,109,116,134,136,138] },
+          { dir: 'blind_search_film',      name: 'FiLM',        eps: [11,13,28,58,74,87,96,102,105,109,116,134,136,138] },
         ]},
       ];
 
@@ -439,8 +448,9 @@
       function pad(n){ return String(n).padStart(4,'0'); }
       function update() {
         var rate = video.playbackRate || 3;
+        var subdir = activeTask.videoSubdir || 'videos_red';
         showLoading();
-        video.src = 'checkpoints/' + activeModel + '/videos_red/ep_' + pad(activeEp) + '.mp4';
+        video.src = 'checkpoints/' + activeModel + '/' + subdir + '/ep_' + pad(activeEp) + '.mp4';
         video.playbackRate = rate;
         video.play().catch(function(){});
       }
