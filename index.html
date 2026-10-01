@@ -37,8 +37,7 @@
       <li><a href="#results">Results</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="#" class="nav-btn nav-btn-ghost">Paper</a>
-      <a href="#" class="nav-btn nav-btn-fill">Code</a>
+      <a href="https://arxiv.org/abs/2609.38494" target="_blank" class="nav-btn nav-btn-ghost">Paper</a>
     </div>
   </div>
 </nav>
@@ -82,15 +81,11 @@
     </p>
 
     <div class="hero-links">
-      <a href="#" class="hlink hlink-primary">
+      <a href="https://arxiv.org/abs/2609.38494" target="_blank" class="hlink hlink-primary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
         Paper
       </a>
-      <a href="#" class="hlink">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        Code
-      </a>
-      <a href="#" class="hlink">
+      <a href="#results" class="hlink">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         Video
       </a>
@@ -523,7 +518,7 @@
 
       // Speed pills
       video.playbackRate = 3;
-      var SPEEDS = [{label:'½×', val:1.5}, {label:'1×', val:3}, {label:'2×', val:6}];
+      var SPEEDS = [{label:'¼×', val:0.75}, {label:'½×', val:1.5}, {label:'1×', val:3}, {label:'2×', val:6}];
       var speedPills = document.getElementById('speedPills');
       SPEEDS.forEach(function(s) {
         var btn = document.createElement('button');
@@ -582,165 +577,101 @@
 
     <!-- Results table -->
     <div class="results-table-wrap reveal">
-      <p class="results-table-caption">Progress estimation results across various tasks and skills. Metrics are averaged over test episodes. <strong>Bold</strong> = best, <span class="tbl-u">underline</span> = second best.</p>
+      <p class="results-table-caption">Progress estimation results across various visual or tactile dominant skills. Metrics are averaged over test episodes. <strong>Bold</strong> = best, <span class="tbl-u">underline</span> = second best.</p>
       <div class="results-table-scroll">
       <table class="results-tbl">
         <thead>
           <tr>
             <th rowspan="2">Method</th>
             <th rowspan="2">Metric</th>
-            <th colspan="3">Lamp Replacement</th>
-            <th class="col-overall">Overall</th>
-            <th colspan="3">Bottle Capping</th>
-            <th class="col-overall">Overall</th>
+            <th colspan="2">Lamp Replacement</th>
+            <th colspan="2">Bottle Capping</th>
           </tr>
           <tr>
-            <th>Reach bulb</th><th>Align bulb</th><th>Twist bulb</th>
-            <th class="col-overall"></th>
-            <th>Reach bottle</th><th>Align cap</th><th>Slide cap</th>
-            <th class="col-overall"></th>
+            <th>Reach bulb</th><th>Twist bulb</th>
+            <th>Reach cap</th><th>Slide cap</th>
           </tr>
         </thead>
         <tbody>
+          <!-- Robometer -->
+          <tr class="row-top">
+            <td rowspan="2" class="method-cell">Robometer</td>
+            <td class="metric-cell">Pearson <em>r</em> ↑</td>
+            <td>0.638 ± 0.054</td>
+            <td>0.209 ± 0.053</td>
+            <td>0.819 ± 0.084</td>
+            <td>0.578 ± 0.058</td>
+          </tr>
+          <tr class="row-bot">
+            <td class="metric-cell">MSE ×10⁻³ ↓</td>
+            <td>84.5 ± 19.6</td>
+            <td>499.8 ± 59.3</td>
+            <td>46.8 ± 17.4</td>
+            <td>232.2 ± 42.2</td>
+          </tr>
+          <!-- Robometer* -->
+          <tr class="row-top">
+            <td rowspan="2" class="method-cell">Robometer<sup>*</sup></td>
+            <td class="metric-cell">Pearson <em>r</em> ↑</td>
+            <td>0.886 ± 0.032</td>
+            <td>0.370 ± 0.106</td>
+            <td class="tbl-u">0.885 ± 0.018</td>
+            <td>0.875 ± 0.020</td>
+          </tr>
+          <tr class="row-bot">
+            <td class="metric-cell">MSE ×10⁻³ ↓</td>
+            <td>27.4 ± 6.2</td>
+            <td>98.6 ± 46.3</td>
+            <td>51.3 ± 9.5</td>
+            <td class="tbl-u">40.7 ± 4.3</td>
+          </tr>
+          <!-- ReWiND* -->
+          <tr class="row-top">
+            <td rowspan="2" class="method-cell">ReWiND<sup>*</sup></td>
+            <td class="metric-cell">Pearson <em>r</em> ↑</td>
+            <td>0.847 ± 0.060</td>
+            <td>0.635 ± 0.136</td>
+            <td>0.880 ± 0.035</td>
+            <td class="tbl-u">0.878 ± 0.037</td>
+          </tr>
+          <tr class="row-bot">
+            <td class="metric-cell">MSE ×10⁻³ ↓</td>
+            <td class="tbl-u">13.7 ± 10.4</td>
+            <td>21.4 ± 10.2</td>
+            <td>11.5 ± 4.7</td>
+            <td>45.5 ± 11.9</td>
+          </tr>
           <!-- Vision Only -->
           <tr class="row-top">
             <td rowspan="2" class="method-cell">Vision Only</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td class="tbl-u">−1.25 ± 3.59</td>
-            <td>+12.67 ± 10.99</td>
-            <td>+20.42 ± 8.68</td>
-            <td class="col-overall tbl-u">+4.85 ± 12.76</td>
-            <td><strong>+1.09 ± 8.90</strong></td>
-            <td>+10.00 ± 38.12</td>
-            <td>−2.00 ± 116.13</td>
-            <td class="col-overall">−2.23 ± 54.33</td>
+            <td class="metric-cell">Pearson <em>r</em> ↑</td>
+            <td class="tbl-u">0.997 ± 0.002</td>
+            <td class="tbl-u">0.842 ± 0.095</td>
+            <td><strong>0.997 ± 0.003</strong></td>
+            <td>0.798 ± 0.103</td>
           </tr>
           <tr class="row-bot">
-            <td class="metric-cell">MSE</td>
-            <td><strong>0.000 ± 0.001</strong></td>
-            <td>0.021 ± 0.030</td>
-            <td><strong>0.009 ± 0.006</strong></td>
-            <td class="col-overall tbl-u">0.007 ± 0.015</td>
-            <td><strong>0.001 ± 0.001</strong></td>
-            <td>0.018 ± 0.015</td>
-            <td>0.073 ± 0.045</td>
-            <td class="col-overall">0.018 ± 0.033</td>
+            <td class="metric-cell">MSE ×10⁻³ ↓</td>
+            <td><strong>0.2 ± 0.1</strong></td>
+            <td class="tbl-u">9.3 ± 6.4</td>
+            <td><strong>0.3 ± 0.3</strong></td>
+            <td>72.7 ± 45.5</td>
           </tr>
-          <!-- w/o Events -->
-          <tr class="row-top">
-            <td rowspan="2" class="method-cell">w/o Events</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td>−4.50 ± 8.90</td>
-            <td>+12.75 ± 22.26</td>
-            <td>−16.33 ± 41.62</td>
-            <td class="col-overall">−3.72 ± 23.75</td>
-            <td>−1.64 ± 10.73</td>
-            <td>+17.18 ± 8.63</td>
-            <td>+41.09 ± 14.99</td>
-            <td class="col-overall">+11.52 ± 20.22</td>
-          </tr>
-          <tr class="row-bot">
-            <td class="metric-cell">MSE</td>
-            <td class="tbl-u">0.001 ± 0.001</td>
-            <td>0.034 ± 0.032</td>
-            <td>0.014 ± 0.015</td>
-            <td class="col-overall">0.009 ± 0.019</td>
-            <td><strong>0.001 ± 0.001</strong></td>
-            <td class="tbl-u">0.008 ± 0.008</td>
-            <td>0.047 ± 0.013</td>
-            <td class="col-overall">0.011 ± 0.018</td>
-          </tr>
-          <!-- w/o FAF -->
-          <tr class="row-top">
-            <td rowspan="2" class="method-cell">w/o FAF</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td class="tbl-na">—</td><td class="tbl-na">—</td><td class="tbl-na">—</td>
-            <td class="col-overall tbl-na">—</td>
-            <td class="tbl-u">+2.18 ± 9.05</td>
-            <td>+18.82 ± 12.88</td>
-            <td>+48.27 ± 12.13</td>
-            <td class="col-overall">+12.45 ± 25.43</td>
-          </tr>
-          <tr class="row-bot">
-            <td class="metric-cell">MSE</td>
-            <td class="tbl-na">—</td><td class="tbl-na">—</td><td class="tbl-na">—</td>
-            <td class="col-overall tbl-na">—</td>
-            <td><strong>0.001 ± 0.001</strong></td>
-            <td>0.013 ± 0.011</td>
-            <td>0.055 ± 0.017</td>
-            <td class="col-overall">0.014 ± 0.021</td>
-          </tr>
-          <!-- FiLM -->
-          <tr class="row-top">
-            <td rowspan="2" class="method-cell">FiLM</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td>−5.08 ± 2.93</td>
-            <td>+13.42 ± 19.56</td>
-            <td class="tbl-u">+9.83 ± 14.35</td>
-            <td class="col-overall">+1.63 ± 14.34</td>
-            <td>−7.45 ± 8.83</td>
-            <td class="tbl-u">+4.55 ± 6.84</td>
-            <td>+40.18 ± 19.03</td>
-            <td class="col-overall tbl-u">+6.20 ± 20.29</td>
-          </tr>
-          <tr class="row-bot">
-            <td class="metric-cell">MSE</td>
-            <td class="tbl-u">0.001 ± 0.001</td>
-            <td>0.021 ± 0.022</td>
-            <td>0.013 ± 0.008</td>
-            <td class="col-overall">0.014 ± 0.021</td>
-            <td><strong>0.001 ± 0.001</strong></td>
-            <td>0.008 ± 0.009</td>
-            <td>0.051 ± 0.020</td>
-            <td class="col-overall">0.012 ± 0.021</td>
-          </tr>
-          <!-- Ours H=2 -->
-          <tr class="row-top">
-            <td rowspan="2" class="method-cell">SkillFormer (H=2)</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td><strong>+0.17 ± 3.69</strong></td>
-            <td><strong>+5.92 ± 14.70</strong></td>
-            <td>−146.83 ± 217.84</td>
-            <td class="col-overall">−29.88 ± 113.95</td>
-            <td>−0.64 ± 11.92</td>
-            <td>+10.64 ± 5.65</td>
-            <td class="tbl-u">+24.45 ± 30.55</td>
-            <td class="col-overall">+7.69 ± 22.28</td>
-          </tr>
-          <tr class="row-bot">
-            <td class="metric-cell">MSE</td>
-            <td><strong>0.000 ± 0.001</strong></td>
-            <td><strong>0.011 ± 0.011</strong></td>
-            <td>0.042 ± 0.056</td>
-            <td class="col-overall">0.012 ± 0.029</td>
-            <td class="tbl-u">0.002 ± 0.001</td>
-            <td>0.011 ± 0.013</td>
-            <td class="tbl-u">0.024 ± 0.039</td>
-            <td class="col-overall tbl-u">0.008 ± 0.019</td>
-          </tr>
-          <!-- Ours -->
+          <!-- SkillFormer -->
           <tr class="row-top row-ours">
             <td rowspan="2" class="method-cell">SkillFormer</td>
-            <td class="metric-cell">Delay@0.9</td>
-            <td>−0.33 ± 4.19</td>
-            <td class="tbl-u">+5.67 ± 15.77</td>
-            <td><strong>+2.33 ± 13.07</strong></td>
-            <td class="col-overall"><strong>−1.38 ± 11.78</strong></td>
-            <td>+0.09 ± 10.47</td>
-            <td><strong>+5.55 ± 5.82</strong></td>
-            <td><strong>+11.91 ± 36.84</strong></td>
-            <td class="col-overall"><strong>+3.03 ± 18.73</strong></td>
+            <td class="metric-cell">Pearson <em>r</em> ↑</td>
+            <td><strong>0.998 ± 0.001</strong></td>
+            <td><strong>0.899 ± 0.061</strong></td>
+            <td><strong>0.997 ± 0.003</strong></td>
+            <td><strong>0.948 ± 0.073</strong></td>
           </tr>
           <tr class="row-bot row-ours">
-            <td class="metric-cell">MSE</td>
-            <td><strong>0.000 ± 0.001</strong></td>
-            <td class="tbl-u">0.016 ± 0.014</td>
-            <td class="tbl-u">0.009 ± 0.009</td>
-            <td class="col-overall"><strong>0.005 ± 0.009</strong></td>
-            <td><strong>0.001 ± 0.001</strong></td>
-            <td><strong>0.007 ± 0.007</strong></td>
-            <td><strong>0.026 ± 0.036</strong></td>
-            <td class="col-overall"><strong>0.007 ± 0.018</strong></td>
+            <td class="metric-cell">MSE ×10⁻³ ↓</td>
+            <td><strong>0.2 ± 0.1</strong></td>
+            <td><strong>5.9 ± 3.9</strong></td>
+            <td class="tbl-u">0.4 ± 0.3</td>
+            <td><strong>15.2 ± 20.6</strong></td>
           </tr>
         </tbody>
       </table>
